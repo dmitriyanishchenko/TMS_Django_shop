@@ -6,9 +6,9 @@ from .views import (
 
 )
 
-urlpatterns = {
+urlpatterns = [
 
     path('', base_view, name='base'),
     path('category/<str:category_slug>/', category_view, name='category_detail'),
     path('product/<slug:product_slug>/', product_view, name='product_detail'),
-}
+]
