@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from .models import (
     Category,
     Product,
@@ -21,6 +23,7 @@ def base_view(request):
         cart_id = cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
+
     context = {
         'categories': categories,
         'products': products,
@@ -84,8 +87,6 @@ def cart_view(request):
 
 
 def add_to_cart_view(request, product_slug):
-    product = Product.objects.get(slug=product_slug)
-    new_item, _ = CartItem.objects.get_or_create(product=product, item_total=product.price)
     try:
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
@@ -96,7 +97,26 @@ def add_to_cart_view(request, product_slug):
         cart_id = cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
-    if new_item not in cart.items.all():
-        cart.items.add(new_item)
+    product = Product.objects.get(slug=product_slug)
+    cart.add_to_cart(product.slug)
+    return HttpResponseRedirect(reverse('cart'))
+
+
+def remove_from_cart_view(request, product_slug):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
         cart.save()
-        return HttpResponseRedirect('/cart/')
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
+    product = Product.objects.get(slug=product_slug)
+    cart.remove_from_cart(product_slug)
+    return HttpResponseRedirect(reverse('cart'))
+
+
+
