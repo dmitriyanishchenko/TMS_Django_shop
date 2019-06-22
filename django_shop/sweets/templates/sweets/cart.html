@@ -8,7 +8,7 @@
         <tr>
             <td class="text-center"><strong>Товар</strong></td>
             <td class="text-center"><strong>Количество</strong></td>
-            <td class="text-center"><strong>Цена</strong></td>
+            <td class="text-center"><strong>Сумма</strong></td>
             <td class="text-center"></td>
 
 
@@ -16,9 +16,14 @@
         {% for item in cart.items.all %}
             <tr class="cart-item-{{ item.product.id }}">
                 <td class="text-center">{{ item.product.title }}</td>
-                <td class="text-center">{{ item.qty }} шт.</td>
-                <td class="text-center">{{ item.item_total }} р.</td>
-                <td class="text-center"><a href="#" 
+                <td class="text-center">
+                    <form action="" method="GET">
+                        <input type="number" name="qty" class="cart-item-qty" data-id="{{ item.id }}"
+                               value="{{ item.qty }}" min="1" style="width: 50px;">
+                    </form>
+                </td>
+                <td class="text-center" id="cart-item-total-{{ item.id }}">{{ item.item_total }} р.</td>
+                <td class="text-center"><a href="#"
                                            class='remove_from_cart'
                                            data-slug='{{ item.product.slug }}' data-id='{{ item.product.id }}'>
                     <button class="btn btn-default">Удалить из корзины</button>
@@ -31,7 +36,7 @@
     <script src="{% static "js/jquery.js" %}"></script>
     <script>
         $(document).ready(function () {
-            $('.remove_from_cart').on('click', function(e){
+            $('.remove_from_cart').on('click', function (e) {
                 e.preventDefault()
                 product_slug = $(this).attr('data-slug')
                 item_product_id = $(this).attr('data-id')
@@ -42,17 +47,36 @@
                 }
 
                 $.ajax({
-                        type: "GET",
-                        url: {%  url 'remove_from_cart' %},
-                        data: data,
-                        success: function (data) {
-                            $("#cart_count").html(data.cart_total)
-                            $('.cart-item-'+item_product_id).css('display', 'none')
-                        }
-                    })
+                    type: "GET",
+                    url: {%  url 'remove_from_cart' %},
+                    data: data,
+                    success: function (data) {
+                        $("#cart_count").html(data.cart_total)
+                        $('.cart-item-' + item_product_id).css('display', 'none')
+                    }
+                })
             })
         })
 
+        $(document).ready(function () {
+            $('.cart-item-qty').on('click', function () {
+                qty = $(this).val()
+                item_id = $(this).attr('data-id')
 
+                data = {
+                    qty: qty,
+                    item_id: item_id
+                }
+                $.ajax({
+                    type: "GET",
+                    url: '{% url 'change_item_gty' %}',
+                    data: data,
+                    success: function (data) {
+                        $('#cart-item-total-'+item_id).html(parseFloat(data.item_total).toFixed(2) + ' р.')
+                    }
+                })
+
+            })
+        })
     </script>
 {% endblock content %}
