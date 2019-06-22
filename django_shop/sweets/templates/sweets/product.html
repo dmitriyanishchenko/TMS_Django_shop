@@ -29,7 +29,7 @@
                     }
                     $.ajax({
                         type: "GET",
-                        url: {%  url 'add_to_cart'%},
+                        url: {%  url 'add_to_cart' %},
                         data: data,
                         success: function (data) {
                             $("#cart_count").html(data.cart_total)
