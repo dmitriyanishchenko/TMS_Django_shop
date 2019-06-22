@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from decimal import Decimal
-
-from .models import (
+from sweets.forms import OrderForm
+from sweets.models import (
     Category,
     Product,
     CartItem,
@@ -150,3 +150,38 @@ def change_item_gty(request):
         {'cart_total': cart.items.count(),
          'item_total': cart_item.item_total,
          'cart_total_price': cart.cart_total})
+
+
+def checkout_view(request):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+    context = {
+        'cart': cart
+    }
+    return render(request, 'sweets/checkout.html', context)
+
+
+def order_create_view(request):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+    form = OrderForm(request.POST or None)
+    context = {
+        'form': form
+    }
+    return render(request, 'sweets/order.html', context)

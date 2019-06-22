@@ -108,6 +108,7 @@ class Order(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     items = models.ManyToManyField('Cart', blank=True)
+    total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)
@@ -115,6 +116,7 @@ class Order(models.Model):
     buying_type = models.CharField(max_length=40, choices=(('Самовывоз', 'Самовывоз'), ('Доставка', 'Доставка')))
     date = models.DateTimeField(auto_now_add=True)
     comments = models.TextField()
+    status = models.CharField(max_length=100, choices=ORDER_STATUS_CHOICES)
 
     def __str__(self):
         return f'Заказ № {str(self.id)}'
