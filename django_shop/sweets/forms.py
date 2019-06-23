@@ -1,7 +1,32 @@
 # -*- coding: utf-8 -*-
-
 from django import forms
 from django.utils import timezone
+from django.contrib.auth.models import User
+
+
+class RegistrationForm(forms.ModelForm):
+    password_check = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'password',
+            'first_name',
+            'last_name',
+            'email',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = 'Логин'
+        self.fields['password'].label = 'Пароль'
+        self.fields['password'].help_text = 'Придумайте пароль'
+        self.fields['password_check'].label = 'Повторите пароль'
+        self.fields['first_name'].label = 'Имя'
+        self.fields['last_name'].label = 'Фамилия'
+        self.fields['email'].label = 'Ваша почта'
+        self.fields['email'].help_text = 'Пожалуйста, указывайте реальный адрес'
 
 
 class OrderForm(forms.Form):

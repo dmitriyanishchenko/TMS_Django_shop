@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from decimal import Decimal
-from sweets.forms import OrderForm
+from sweets.forms import OrderForm, RegistrationForm
 from sweets.models import (
     Category,
     Product,
@@ -228,6 +228,19 @@ def make_order_view(request):
     return render(request, 'sweets/order.html', {'categories': categories})
 
 
+def account_view(request):
+    categories = Category.objects.all()
+    order = Order.objects.filter(user=request.user).order_by('-id')
+    context = {
+        'order': order,
+        'categories': categories
+    }
+    return render(request, 'sweets/account.html', context)
 
 
-
+def registration_view(request):
+    form = RegistrationForm(request.POST or None)
+    context = {
+         'form': form
+    }
+    return render(request, 'sweets/registration.html', context)
