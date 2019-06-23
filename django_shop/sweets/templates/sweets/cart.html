@@ -39,8 +39,10 @@
                     <td></td>
                 </tr>
             </table>
-        <br>
-        <a href="{% url 'checkout' %}" class="pull-right"><button class="btn btn-info">Предварительный заказ</button> </a>
+            <br>
+            <a href="{% url 'checkout' %}" class="pull-right">
+                <button class="btn btn-info">Предварительный заказ</button>
+            </a>
         </div>
         <h3 class="cart-empty"></h3>
     {% else %}
@@ -96,7 +98,6 @@
                         $('#cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' р.</strong>')
                     }
                 })
-
             })
         })
     </script>

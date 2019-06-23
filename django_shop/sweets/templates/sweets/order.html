@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-    <form action="" method="POST">
+    <form action="{% url 'make_order' %}" method="POST">
         <div class="col-sm-4">
             {{ form.name|as_crispy_field }}
         </div>
@@ -17,7 +17,8 @@
         {{ form.address|as_crispy_field }}
         {{ form.date|as_crispy_field }}
         {{ form.comments|as_crispy_field }}
-        <input type="submit" class="btn btn-success" value="Оформить заказ">
+        <input type="submit" class="btn btn-success" value="Подтвердить заказ">
+
     </form>
     <script src="{% static "js/jquery.js" %}"></script>
     <script>
