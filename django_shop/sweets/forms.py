@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 
 class RegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
     password_check = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
@@ -12,6 +13,7 @@ class RegistrationForm(forms.ModelForm):
         fields = [
             'username',
             'password',
+            'password_check',
             'first_name',
             'last_name',
             'email',
@@ -27,6 +29,8 @@ class RegistrationForm(forms.ModelForm):
         self.fields['last_name'].label = 'Фамилия'
         self.fields['email'].label = 'Ваша почта'
         self.fields['email'].help_text = 'Пожалуйста, указывайте реальный адрес'
+
+
 
 
 class OrderForm(forms.Form):
