@@ -163,8 +163,10 @@ def checkout_view(request):
         cart_id = cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
+    categories = Category.objects.all()
     context = {
         'cart': cart,
+        'categories': categories
             }
     return render(request, 'sweets/checkout.html', context)
 
@@ -191,7 +193,6 @@ def order_create_view(request):
 
 
 def make_order_view(request):
-    categories = Category.objects.all()
     try:
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
@@ -203,6 +204,7 @@ def make_order_view(request):
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
     form = OrderForm(request.POST or None)
+    categories = Category.objects.all()
     if form.is_valid():
         name = form.cleaned_data['name']
         last_name = form.cleaned_data['last_name']
@@ -229,8 +231,8 @@ def make_order_view(request):
 
 
 def account_view(request):
-    categories = Category.objects.all()
     order = Order.objects.filter(user=request.user).order_by('-id')
+    categories = Category.objects.all()
     context = {
         'order': order,
         'categories': categories
@@ -240,6 +242,7 @@ def account_view(request):
 
 def registration_view(request):
     form = RegistrationForm(request.POST or None)
+    categories = Category.objects.all()
     if form.is_valid():
         new_user = form.save(commit=False)
         username = form.cleaned_data['username']
@@ -258,13 +261,15 @@ def registration_view(request):
             login(request, login_user)
             return HttpResponseRedirect(reverse('base'))
     context = {
-         'form': form
+        'form': form,
+        'categories': categories
     }
     return render(request, 'sweets/registration.html', context)
 
 
 def login_view(request):
     form = LoginForm(request.POST or None)
+    categories = Category.objects.all()
     if form.is_valid():
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']
@@ -273,6 +278,7 @@ def login_view(request):
             login(request, login_user)
             return HttpResponseRedirect(reverse('base'))
     context = {
-        'form': form
+        'form': form,
+        'categories': categories
     }
     return render(request, 'sweets/login.html', context)
