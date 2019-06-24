@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+{% csrf_token %}
     <form action="{% url 'make_order' %}" method="POST">
         <div class="col-sm-4">
             {{ form.name|as_crispy_field }}

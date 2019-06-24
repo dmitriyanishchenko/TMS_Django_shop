@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+    {% csrf_token %}
     <div class="col-sm-12">
         <h2>{{ category.name }}</h2>
         <hr>

@@ -12,7 +12,8 @@ from .views import (
     order_create_view,
     make_order_view,
     account_view,
-    registration_view
+    registration_view,
+    login_view,
 )
 
 urlpatterns = [
@@ -30,5 +31,6 @@ urlpatterns = [
     path('thank_you/', TemplateView.as_view(template_name='sweets/thank_you.html'), name='thank_you'),
     path('account/', account_view, name='account'),
     path('registration/', registration_view, name='registration'),
+    path('login/', login_view, name='login'),
 
 ]

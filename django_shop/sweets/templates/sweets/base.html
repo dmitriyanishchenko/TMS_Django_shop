@@ -28,6 +28,7 @@
 </head>
 
 <body>
+{% csrf_token %}
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -64,6 +65,13 @@
                     <li>
                         <p class="navbar-text">Здравствуйте, гость!</p>
                     </li>
+                        <li>
+                        <a href="{% url 'login' %}">Войти</a>
+                        </li>
+                        <li>
+                        <a href="{% url 'registration' %}">Регистрация</a>
+                        </li>
+
                     {% else %}
                     <li>
                         <p class="navbar-text">Здравствуйте, {{ request.user }}</p>

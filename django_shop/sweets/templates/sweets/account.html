@@ -1,7 +1,7 @@
 {% extends 'sweets/base.html' %}
 
 {% block content %}
-
+{% csrf_token %}
     <h3 class="text-center">Личный кабинет пользователя {{ request.user }}</h3>
     <hr>
     <h4 class="text-center">Ваши заказы</h4>
@@ -13,7 +13,6 @@
              <td class="text-center">Стоимость заказа</td>
              <td class="text-center">Детали заказа</td>
              <td></td>
-
          </tr>
         {% for item in order %}
                 <tr>
@@ -23,8 +22,6 @@
                     <td class="text-center" style="padding-top: 20px; padding-bottom: 20px">{{ item.total }}</td>
                     <td class="text-center" style="padding-top: 20px; padding-bottom: 20px"></td>
                 </tr>
-
-
         {% endfor %}
     </table>
 {% endblock content %}

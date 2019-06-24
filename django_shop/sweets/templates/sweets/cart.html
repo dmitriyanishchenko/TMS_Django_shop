@@ -69,7 +69,7 @@
                     success: function (data) {
                         $("#cart_count").html(data.cart_total)
                         $('.cart-item-' + item_product_id).css('display', 'none')
-                        $('#cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' р.</strong>')
+                        $('#cart-total-price').html(parseFloat(data.cart_total_price).toFixed(2) + ' р.')
                         if (parseInt(data.cart_total) == 0) {
                             $('.my-cart').css('display', 'none')
                             $('.cart-empty').css('display', 'block')
@@ -95,7 +95,7 @@
                     data: data,
                     success: function (data) {
                         $('#cart-item-total-' + item_id).html(parseFloat(data.item_total).toFixed(2) + ' р.')
-                        $('#cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' р.</strong>')
+                        $('#cart-total-price').html(parseFloat(data.cart_total_price).toFixed(2) + ' р.')
                     }
                 })
             })
