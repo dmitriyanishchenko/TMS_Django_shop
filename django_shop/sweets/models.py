@@ -52,7 +52,7 @@ class Product(models.Model):
 
 
 class CartItem(models.Model):
-    product = models.ForeignKey('Product', null=True, on_delete=models.SET_NULL, related_name='product')
+    product = models.ForeignKey('Product', null=True, on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=1)
     item_total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
 
@@ -71,8 +71,8 @@ class Cart(models.Model):
         cart = self
         product = Product.objects.get(slug=product_slug)
         new_item, _ = CartItem.objects.get_or_create(product=product, item_total=product.price)
-
-        if new_item not in cart.items.all():
+        cart_items = [item.product for item in cart.items.all()]
+        if new_item.product not in cart_items:
             cart.items.add(new_item)
             cart.save()
 
@@ -107,7 +107,7 @@ ORDER_STATUS_CHOICES = (
 class Order(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
-    items = models.ManyToManyField('Cart', blank=True)
+    items = models.ForeignKey('Cart', null=True, on_delete=models.SET_NULL)
     total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
