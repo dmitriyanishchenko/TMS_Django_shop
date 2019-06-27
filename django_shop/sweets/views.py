@@ -222,7 +222,6 @@ def make_order_view(request):
             address=address,
             buying_type=buying_type,
             comments=comments,
-
         )
         new_order.save()
         del request.session['cart_id']
