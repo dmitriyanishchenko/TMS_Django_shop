@@ -34,7 +34,7 @@ class ProductManager(models.Manager):
 
 
 class Product(models.Model):
-    category = models.ForeignKey('Category', null=True, on_delete=models.SET_NULL, related_name='category')
+    category = models.ForeignKey('Category', null=True, on_delete=models.CASCADE)
     brand = models.ForeignKey('Brand', null=True, on_delete=models.SET_NULL, related_name='brand')
     title = models.CharField(max_length=120)  # nazvanie
     slug = models.SlugField()  # ssylka
