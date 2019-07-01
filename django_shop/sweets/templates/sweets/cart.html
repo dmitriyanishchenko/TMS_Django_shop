@@ -84,6 +84,8 @@
             $('.cart-item-qty').on('click', function () {
                 qty = $(this).val()
                 item_id = $(this).attr('data-id')
+                console.log(qty)
+                console.log(item_id)
 
                 data = {
                     qty: qty,
@@ -91,7 +93,7 @@
                 }
                 $.ajax({
                     type: "GET",
-                    url: '{% url 'change_item_gty' %}',
+                    url: {% url 'change_item_qty' %},
                     data: data,
                     success: function (data) {
                         $("#cart-item-total-" + item_id).html(parseFloat(data.item_total).toFixed(2) + ' р.')
