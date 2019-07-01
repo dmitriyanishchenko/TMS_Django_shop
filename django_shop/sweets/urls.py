@@ -2,7 +2,7 @@ from django.urls import path, reverse_lazy
 
 from django.contrib.auth.views import LogoutView
 from django.views.generic import TemplateView
-from .views import (
+from sweets.views import (
     base_view,
     category_view,
     product_view,
