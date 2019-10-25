@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse
 from sweets.function import cart_create
 from sweets.models import Product
 
